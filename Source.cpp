@@ -19,8 +19,9 @@ static bool selectObject = false;
 static bool startSelection = false;
 
 static const char* keys =
-{ "{@tracker_algorithm |KCF | Tracker algorithm }"
-"{@video_name      |C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\video.mp4| video name}"
+{"{@tracker_algorithm |TrackerMIL | Tracker algorithm }"
+"{@video_path      |C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\| }"
+"{@solution_path   |C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\Procesados\\| Save folder}"
 "{@start_frame     |0| Start frame       }"
 "{@bounding_frame  |0,0,0,0| Initial bounding frame}" };
 
@@ -84,7 +85,7 @@ int main(int argc, char** argv) {
 	string video_name;
 	cout << "Nombre del video: (incluye extension, i.e.: .mp4, .avi).\nTu video tiene que estar en C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\)\n";
 	getline(cin, video_name);
-	int start_frame = parser.get<int>(2);
+	int start_frame = parser.get<int>(3);
 	string nombre;
 	cout << "Nombre del nuevo video: (sera en formato .mp4)\n";
 	getline(cin, nombre);
@@ -103,7 +104,7 @@ int main(int argc, char** argv) {
 	int coords[4] = { 0,0,0,0 };
 	bool initBoxWasGivenInCommandLine = false;
 	{
-		String initBoundingBox = parser.get<String>(3);
+		String initBoundingBox = parser.get<String>(4);
 		for (size_t npos = 0, pos = 0, ctr = 0; ctr<4; ctr++) {
 			npos = initBoundingBox.find_first_of(',', pos);
 			if (npos == string::npos && ctr<3) {
@@ -130,7 +131,7 @@ int main(int argc, char** argv) {
 	//open the capture
 	VideoCapture cap;
 	//cap.open("C:\\Users\\hp\\Desktop\\Bar Path\\"+video_name);
-	cap.open("C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\" + video_name);
+	cap.open(parser.get<String>(1) + video_name);
 	cap.set(CAP_PROP_POS_FRAMES, start_frame);
 	double dheight = cap.get(CAP_PROP_FRAME_HEIGHT);
 	double dwidth = cap.get(CAP_PROP_FRAME_WIDTH);
@@ -199,7 +200,7 @@ int main(int argc, char** argv) {
 	int frameCounter = 0;
 
 	//VideoWriter oVideoWriter("C:\\Users\\hp\\Desktop\\Bar Path\\Procesados\\"+nombre+".avi", CV_FOURCC('M', 'P', '4', '2'), 30, Size(dwidth,dheight), true); //initialize the VideoWriter object 
-	VideoWriter oVideoWriter("C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\Procesados\\" + nombre + ".avi", cv::VideoWriter::fourcc('M', 'P', '4', '2'), 30, Size(dwidth, dheight), true); //initialize the VideoWriter object 
+	VideoWriter oVideoWriter(parser.get<String>(2) + nombre + ".avi", cv::VideoWriter::fourcc('M', 'P', '4', '2'), 30, Size(dwidth, dheight), true); //initialize the VideoWriter object 
 
 	if (!oVideoWriter.isOpened()) //if not initialize the VideoWriter successfully, exit the program
 	{
