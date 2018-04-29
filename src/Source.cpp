@@ -1,3 +1,4 @@
+#include "opencv2/imgproc/imgproc.hpp"
 #include <opencv2/core/utility.hpp>
 #include <opencv2/tracking.hpp>
 #include <opencv2/tracking/tracking.hpp>
@@ -8,8 +9,6 @@
 #include <iostream>
 #include <string>
 #include <cstring>
-
-
 
 using namespace std;
 using namespace cv;
@@ -179,7 +178,6 @@ int main(int argc, char** argv) {
 	//Capture a temporary image from the camera
 	Mat imgTmp;
 	cap.read(imgTmp);
-	//resize(imgTmp, imgTmp, )
 
 	//Create a black image with the size as the camera output
 	Mat imgLines = Mat::zeros(imgTmp.size(), CV_8UC3);;
