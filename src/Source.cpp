@@ -9,6 +9,8 @@
 #include <string>
 #include <cstring>
 
+
+
 using namespace std;
 using namespace cv;
 
@@ -84,11 +86,11 @@ int main(int argc, char** argv) {
 	//String tracker_algorithm = parser.get<String>(0);
 	//String video_name = parser.get<String>(1);
 	string video_name;
-	cout << "Nombre del video: (incluye extension, i.e.: .mp4, .avi).\nTu video tiene que estar en"+ parser.get<String>(1) +"\n";
+	cout << "Name of video file: (include extension, i.e.: .mp4, .avi).\nThe root is in: "+ parser.get<String>(1) +"\n";
 	getline(cin, video_name);
 	int start_frame = parser.get<int>(3);
 	string nombre;
-	cout << "Nombre del nuevo video: (sera en formato .mp4)\n";
+	cout << "Name of final video: (exclude the extension)\n";
 	getline(cin, nombre);
 
 	int iLastX = -1;
