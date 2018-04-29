@@ -1,7 +1,10 @@
 #include <opencv2/core/utility.hpp>
 #include <opencv2/tracking.hpp>
+#include <opencv2/tracking/tracking.hpp>
+#include <opencv2/tracking/tracker.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/highgui.hpp>
+#include "opencv2/opencv.hpp"
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -16,10 +19,11 @@ static bool selectObject = false;
 static bool startSelection = false;
 
 static const char* keys =
-{"{@tracker_algorithm |KCF | Tracker algorithm }"
-"{@video_name      |C:\\Users\\R.Alvarez\\Documents\\Camtasia Studio\\Bar Path\\SnatchTopTier3.mp4| video name}"
+{ "{@tracker_algorithm |KCF | Tracker algorithm }"
+"{@video_name      |C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\video.mp4| video name}"
 "{@start_frame     |0| Start frame       }"
 "{@bounding_frame  |0,0,0,0| Initial bounding frame}" };
+
 
 static void onMouse(int event, int x, int y, int, void*)
 {
@@ -73,10 +77,12 @@ static void help()
 int main(int argc, char** argv) {
 	CommandLineParser parser(argc, argv, keys);
 
-	String tracker_algorithm = parser.get<String>(0);
+	//the following line read from the console the name of the tracker picked by the programmer, however,
+	//it looks like the way of defining the tracker has to be hardcoded in the new version.
+	//String tracker_algorithm = parser.get<String>(0);
 	//String video_name = parser.get<String>(1);
 	string video_name;
-	cout << "Nombre del video: (incluye extension, i.e.: .mp4, .avi).\nTu video tiene que estar en C:/Users/hp/Desktop/Bar Path/)\n";
+	cout << "Nombre del video: (incluye extension, i.e.: .mp4, .avi).\nTu video tiene que estar en C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\)\n";
 	getline(cin, video_name);
 	int start_frame = parser.get<int>(2);
 	string nombre;
@@ -87,7 +93,8 @@ int main(int argc, char** argv) {
 	int iLastY = -1;
 	Mat p;
 
-	if (tracker_algorithm.empty() || video_name.empty())
+	//if (tracker_algorithm.empty() || video_name.empty())
+	if (video_name.empty())
 	{
 		help();
 		return -1;
@@ -123,21 +130,23 @@ int main(int argc, char** argv) {
 	//open the capture
 	VideoCapture cap;
 	//cap.open("C:\\Users\\hp\\Desktop\\Bar Path\\"+video_name);
-	cap.open("C:\\Users\\R.Alvarez\\Documents\\Camtasia Studio\\Bar Path\\" + video_name);
+	cap.open("C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\" + video_name);
 	cap.set(CAP_PROP_POS_FRAMES, start_frame);
 	double dheight = cap.get(CAP_PROP_FRAME_HEIGHT);
 	double dwidth = cap.get(CAP_PROP_FRAME_WIDTH);
-	Mat background = Mat::zeros(Size(dwidth,dheight), CV_8UC3);;
+	Mat background = Mat::zeros(Size(dwidth, dheight), CV_8UC3);;
 	//imshow("Background", background);
 	//Mat logo = imread("C:\\Users\\hp\\Pictures\\toptier.png");
-	Mat logo = imread("C:\\Users\\R.Alvarez\\Documents\\Camtasia Studio\\Bar Path\\toptier.png");
-	resize(logo, logo, Size(logo.cols * 0.1, logo.rows * 0.1));
-	logo.copyTo(background(Rect(background.cols-logo.cols, background.rows-logo.rows, logo.cols, logo.rows)));
+	//Mat logo = imread("C:\\Users\\R.Alvarez\\Documents\\Camtasia Studio\\Bar Path\\toptier.png");
+	//resize(logo, logo, Size(logo.cols * 0.1, logo.rows * 0.1));
+	//logo.copyTo(background(Rect(background.cols-logo.cols, background.rows-logo.rows, logo.cols, logo.rows)));
 	//imshow("Back + logo", background);
-	double fps = cap.get(CV_CAP_PROP_FPS);
-	cout << "FPS: " << fps << endl;
-	double msec = cap.get(CV_CAP_PROP_POS_MSEC);
-	cout << "Msec: " << fps << endl;
+
+	//check later (29/04/2018)
+	//double fps = cap.get(CV_CAP_PROP_FPS);
+	//cout << "FPS: " << fps << endl;
+	//double msec = cap.get(CV_CAP_PROP_POS_MSEC);
+	//cout << "Msec: " << fps << endl;
 
 	if (!cap.isOpened())
 	{
@@ -151,11 +160,12 @@ int main(int argc, char** argv) {
 	Mat frame;
 	paused = true;
 	//namedWindow("Tracking API", 1);
-	namedWindow("Tracking API", CV_WINDOW_NORMAL);
+	namedWindow("Tracking API", WINDOW_NORMAL);
 	setMouseCallback("Tracking API", onMouse, 0);
 
 	//instantiates the specific Tracker
-	Ptr<Tracker> tracker = Tracker::create(tracker_algorithm);
+	//Ptr<Tracker> tracker = Tracker::init(tracker_algorithm);
+	Ptr<Tracker> tracker = TrackerMIL::create();
 	if (tracker == NULL)
 	{
 		cout << "***Error in the instantiation of the tracker...***\n";
@@ -164,7 +174,7 @@ int main(int argc, char** argv) {
 
 	//Capture a temporary image from the camera
 	Mat imgTmp;
-	cap.read(imgTmp);
+	cap.read(imgTmp);	
 	//resize(imgTmp, imgTmp, )
 
 	//Create a black image with the size as the camera output
@@ -189,7 +199,7 @@ int main(int argc, char** argv) {
 	int frameCounter = 0;
 
 	//VideoWriter oVideoWriter("C:\\Users\\hp\\Desktop\\Bar Path\\Procesados\\"+nombre+".avi", CV_FOURCC('M', 'P', '4', '2'), 30, Size(dwidth,dheight), true); //initialize the VideoWriter object 
-	VideoWriter oVideoWriter("C:\\Users\\R.Alvarez\\Documents\\Camtasia Studio\\Bar Path\\Procesados\\" + nombre + ".avi", CV_FOURCC('M', 'P', '4', '2'), 30, Size(dwidth, dheight), true); //initialize the VideoWriter object 
+	VideoWriter oVideoWriter("C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\Procesados\\" + nombre + ".avi", cv::VideoWriter::fourcc('M', 'P', '4', '2'), 30, Size(dwidth, dheight), true); //initialize the VideoWriter object 
 
 	if (!oVideoWriter.isOpened()) //if not initialize the VideoWriter successfully, exit the program
 	{
@@ -243,7 +253,7 @@ int main(int argc, char** argv) {
 			//water.copyTo(p(Rect(p.cols/2-water.cols/2, p.rows / 2 - water.rows / 2, water.cols, water.rows)));
 
 			oVideoWriter.write(p); //writer the frame into the file
-			//imshow("MyVideo", p);
+								   //imshow("MyVideo", p);
 		}
 		char c = (char)waitKey(2);
 		if (c == 'q')
