@@ -21,8 +21,8 @@ static bool startSelection = false;
 //the following const char* keys are up to date, they will be used from now on 29/04/2018
 static const char* keys =
 { "{@tracker_algorithm |TrackerMIL | Tracker algorithm }"
-"{@video_path      |C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\| }"
-"{@solution_path   |C:\\Users\\RubenAMtz\\Documents\\Bar_Path\\Procesados\\| Save folder}"
+"{@video_path      |C:\\Bar_Path\\| }"
+"{@solution_path   |C:\\Bar_Path\\Procesados\\| Save folder}"
 "{@start_frame     |0| Start frame       }"
 "{@bounding_frame  |0,0,0,0| Initial bounding frame}" };
 
