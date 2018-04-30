@@ -111,7 +111,6 @@ int main(int argc, char** argv) {
 	imshow("Tracking API", image);
 
 	bool initialized = false;
-	int frameCounter = 0;
 
 	VideoWriter oVideoWriter(parser.get<String>(2) + nombre + ".avi", cv::VideoWriter::fourcc('M', 'P', '4', '2'), 30, Size(dwidth, dheight), true); //initialize the VideoWriter object 
 
@@ -158,7 +157,6 @@ int main(int argc, char** argv) {
 			}
 
 			imshow("Tracking API", image + imgLines);
-			frameCounter++;
 			p = image + imgLines + background*0.4;
 
 			oVideoWriter.write(p); //writer the frame into the file
