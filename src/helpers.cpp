@@ -44,8 +44,8 @@ void onMouse(int event, int x, int y, int, void*)
 				//draw the bounding box
 				Mat currentFrame;
 				image.copyTo(currentFrame);
-				rectangle(currentFrame, Point((int)boundingBox.x, (int)boundingBox.y), Point(x, y), Scalar(255, 0, 0), 2, 1);
-				imshow("Tracking API", currentFrame);
+				cv::rectangle(currentFrame, Point((int)boundingBox.x, (int)boundingBox.y), Point(x, y), Scalar(255, 0, 0), 2, 1);
+				cv::imshow("Tracking API", currentFrame);
 			}
 			break;
 		}
