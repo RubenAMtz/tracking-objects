@@ -1,9 +1,23 @@
+/**
+  * helpers.cpp
+  * 
+  * Helper functions for Source.cpp
+**/
+
 #include "Header.h"
 #include "globals.h"
 #include <iostream>
 #include <string>
 #include <cstring>
 
+/**
+  * Whenever mouse events related to the specified window occur, this callback 
+  * function will be called.
+  * @args:
+  *		- int event: type of the mouse event
+  *		- int x: x coordinate of the mouse event
+  *		- int y: y coordinate of the mouse event
+**/
 void onMouse(int event, int x, int y, int, void*)
 {
 	if (!selectObject)
@@ -38,6 +52,9 @@ void onMouse(int event, int x, int y, int, void*)
 	}
 }
 
+/**
+* This function prints in stdout the specifications of the project
+**/
 void help()
 {
 	cout << "\nThis example shows the functionality of \"Long-term optical tracking API\""
@@ -53,7 +70,14 @@ void help()
 		"\tp - pause video\n";
 }
 
-void getBoundingBox(String initBoundingBox, int coords[4]) {
+/**
+* This function creates a rectangle out of 2 pair of coordinates given by the user (mouse input)
+* @args:
+*		- String initBoundingBox: variable used to get the initial value of the rectangle
+*		- int coords[4]: array used to store the 2 pair of coordinates
+**/
+void getBoundingBox(String initBoundingBox, int coords[4]) 
+{
 	for (size_t npos = 0, pos = 0, ctr = 0; ctr < 4; ctr++) {
 		npos = initBoundingBox.find_first_of(',', pos);
 		if (npos == string::npos && ctr < 3) {
