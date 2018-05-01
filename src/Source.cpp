@@ -57,13 +57,6 @@ int main(int argc, char** argv) {
 	cap.set(CAP_PROP_POS_FRAMES, start_frame);
 	double dheight = cap.get(CAP_PROP_FRAME_HEIGHT);
 	double dwidth = cap.get(CAP_PROP_FRAME_WIDTH);
-	Mat background = Mat::zeros(Size(dwidth, dheight), CV_8UC3);;
-
-	//check later (29/04/2018)
-	//double fps = cap.get(CV_CAP_PROP_FPS);
-	//cout << "FPS: " << fps << endl;
-	//double msec = cap.get(CV_CAP_PROP_POS_MSEC);
-	//cout << "Msec: " << fps << endl;
 
 	if (!cap.isOpened())
 	{
@@ -157,7 +150,7 @@ int main(int argc, char** argv) {
 			}
 
 			imshow("Tracking API", image + imgLines);
-			p = image + imgLines + background*0.4;
+			p = image + imgLines;
 
 			oVideoWriter.write(p); //writer the frame into the file
 								   //imshow("MyVideo", p);
