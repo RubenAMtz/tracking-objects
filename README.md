@@ -1,7 +1,7 @@
 # TrackingObjects
 ## App to track olympic lifting bar's path
 
-Create a build directory to build the project makefiles
+Create a build directory inside your local repo to build the project makefiles
 ```
 $ cd TrackingObjects
 $ mkdir build
