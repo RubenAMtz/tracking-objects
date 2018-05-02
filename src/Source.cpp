@@ -101,8 +101,8 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 	
-	int iLastX = -1;
-	int iLastY = -1;
+	double iLastX = -1;
+	double iLastY = -1;
 	Mat p;
 	vector<Point> barPath;
 
@@ -142,13 +142,13 @@ int main(int argc, char** argv) {
 				//updates the tracker
 				if (tracker->update(frame, boundingBox))
 				{
-					rectangle(image, boundingBox, Scalar(255, 0, 0), 2, 1);
+					rectangle(image, boundingBox, Scalar(255.0, 0.0, 0.0), 2, 1);
 					//draw green lines to show path of bar
 					line(imgLines, 
-						Point(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2), 
-						Point(iLastX, iLastY), Scalar(0, 255, 0), 2);
+						Point2d(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2), 
+						Point2d(iLastX, iLastY), Scalar(0.0, 255.0, 0.0), 2);
 					//store points in barPath vector
-					barPath.push_back( Point(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2));
+					barPath.push_back( Point2d(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2));
 				}
 			}
 
