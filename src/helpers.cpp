@@ -101,3 +101,12 @@ void getBoundingBox(String initBoundingBox, int coords[4])
 		initBoxWasGivenInCommandLine = true;
 	}
 }
+
+void getFileNames(string& videoName, string& videoSolution, String videoNamePath)
+{
+	cout << "Please type in the Name of Video file: (include extension, i.e: video.mp4, video.avi)."<< endl;
+	cout << "The video should be in the following directory: " + videoNamePath << endl;
+	getline(cin, videoName);
+	cout << "Name of final video: (exclude the extension, i.e: video)\n";
+	getline(cin, videoSolution);
+}

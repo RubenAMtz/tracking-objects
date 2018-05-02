@@ -13,3 +13,4 @@ using namespace cv;
 void onMouse(int event, int x, int y, int, void*);
 void help();
 void getBoundingBox(String initBoundingBox, int coords[4]);
+void getFileNames(string& videoName, string& videoSolution, String videoNamePath);

@@ -28,20 +28,19 @@ int main(int argc, char** argv) {
 	//the following line read from the console the name of the tracker picked by the programmer, however,
 	//it looks like the way of defining the tracker has to be hardcoded in the new version.
 	//String tracker_algorithm = parser.get<String>(0);
-	//String video_name = parser.get<String>(1);
-	string video_name;
-	cout << "Name of video file: (include extension, i.e.: .mp4, .avi).\nThe root is in: " + parser.get<String>(1) + "\n";
-	getline(cin, video_name);
+	//String videoName = parser.get<String>(1);
+	string videoName;
+	string videoSolution;
+	String videoNamePath = parser.get<String>(1);
 	int start_frame = parser.get<int>(3);
-	string nombre;
-	cout << "Name of final video: (exclude the extension)\n";
-	getline(cin, nombre);
+	
+	getFileNames(videoName, videoSolution, videoNamePath);
 
 	int iLastX = -1;
 	int iLastY = -1;
 	Mat p;
 
-	if (video_name.empty())
+	if (videoName.empty())
 	{
 		help();
 		return -1;
@@ -53,11 +52,8 @@ int main(int argc, char** argv) {
 
 	//open the capture
 	VideoCapture cap;
-	cap.open(parser.get<String>(1) + video_name);
-	cap.set(CAP_PROP_POS_FRAMES, start_frame);
-	double dheight = cap.get(CAP_PROP_FRAME_HEIGHT);
-	double dwidth = cap.get(CAP_PROP_FRAME_WIDTH);
-
+	cap.open(parser.get<String>(1) + videoName);
+	
 	if (!cap.isOpened())
 	{
 		help();
@@ -66,6 +62,9 @@ int main(int argc, char** argv) {
 		parser.printMessage();
 		return -1;
 	}
+	cap.set(CAP_PROP_POS_FRAMES, start_frame);
+	double dheight = cap.get(CAP_PROP_FRAME_HEIGHT);
+	double dwidth = cap.get(CAP_PROP_FRAME_WIDTH);
 
 	Mat frame;
 	paused = true;
@@ -94,6 +93,7 @@ int main(int argc, char** argv) {
 	if (initBoxWasGivenInCommandLine) {
 		selectObject = true;
 		paused = false;
+		//create rectangle
 		boundingBox.x = coords[0];
 		boundingBox.y = coords[1];
 		boundingBox.width = std::abs(coords[2] - coords[0]);
@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
 
 	bool initialized = false;
 
-	VideoWriter oVideoWriter(parser.get<String>(2) + nombre + ".avi", cv::VideoWriter::fourcc('M', 'P', '4', '2'), 30, Size(dwidth, dheight), true); //initialize the VideoWriter object 
+	VideoWriter oVideoWriter(parser.get<String>(2) + videoSolution + ".avi", cv::VideoWriter::fourcc('M', 'P', '4', '2'), 30, Size(dwidth, dheight), true); //initialize the VideoWriter object 
 
 	if (!oVideoWriter.isOpened()) //if not initialize the VideoWriter successfully, exit the program
 	{
