@@ -1,6 +1,20 @@
 # TrackingObjects
 ## App to track olympic lifting bar's path
 
+Create a build directory to build the project makefiles
+```
+$ cd TrackingObjects
+$ mkdir build
+$ cd build
+$ cmake .. -G "Visual Studio 15 2017 Win64"
+```
+
+Run the command below in the build directory to build the solution in Release mode:
+```
+$ cmake --build . --config Release
+```
+
+
 ### Replicate the hierarchy below to reproduce the project in Visual Studio
 Visual Studio Project Hierarchy:
 <pre>
@@ -14,3 +28,4 @@ Visual Studio Project Hierarchy:
 |    +-- helpers.cpp  
 |    +-- Source.cpp  
 </pre>
+
