@@ -17,6 +17,18 @@ $ cmake --build . --config Release
 Note: Project is only working in Release mode.
 
 ___
+
+In order to Build/Compile the project just save your changes and go to the build directory (_TrackingObjects/build_) and run the following command:
+```
+$ cmake --build . --config Release
+```
+
+If you want to run your compiled program, just run:
+```
+$ ./Release/trackingObjects.exe
+```
+
+___
 ## Text Below is Outdated
 ### Replicate the hierarchy below to reproduce the project in Visual Studio
 Visual Studio Project Hierarchy:
