@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 	//open the capture
 	VideoCapture cap;
 	cap.open(videoNamePath + videoName);
-	
+	 
 	if (!cap.isOpened())
 	{
 		help();
@@ -92,8 +92,9 @@ int main(int argc, char** argv) {
 	imshow("Tracking API", image);
 
 	bool initialized = false;
-
-	VideoWriter oVideoWriter(parser.get<String>(2) + videoSolution + ".avi", cv::VideoWriter::fourcc('M', 'P', '4', '2'), 30, Size(dwidth, dheight), true); //initialize the VideoWriter object 
+	string videoSolutionPath = parser.get<String>(2) + videoSolution + ".avi";
+	//initialize the VideoWriter object
+	VideoWriter oVideoWriter(videoSolutionPath, cv::VideoWriter::fourcc('M', 'P', '4', '2'), 30, Size((int)dwidth, (int)dheight), true);
 
 	if (!oVideoWriter.isOpened()) //if not initialize the VideoWriter successfully, exit the program
 	{
