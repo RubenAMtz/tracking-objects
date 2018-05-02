@@ -78,6 +78,7 @@ int main(int argc, char** argv) {
 	//get the first frame
 	cap >> frame;
 	frame.copyTo(image);
+
 	if (initBoxWasGivenInCommandLine) {
 		selectObject = true;
 		paused = false;
@@ -89,23 +90,24 @@ int main(int argc, char** argv) {
 		printf("bounding box with vertices (%d,%d) and (%d,%d) was given in command line\n", coords[0], coords[1], coords[2], coords[3]);
 		rectangle(image, boundingBox, Scalar(255, 0, 0), 2, 1);
 	}
+
 	imshow("Tracking API", image);
 
-	bool initialized = false;
 	string videoSolutionPath = parser.get<String>(2) + videoSolution + ".avi";
 	//initialize the VideoWriter object
-	VideoWriter oVideoWriter(videoSolutionPath, cv::VideoWriter::fourcc('M', 'P', '4', '2'), 30, Size((int)dwidth, (int)dheight), true);
+	VideoWriter oVideoWriter(videoSolutionPath, cv::VideoWriter::fourcc('M', 'P', '4', '2'), 60, Size((int)dwidth, (int)dheight), true);
 
 	if (!oVideoWriter.isOpened()) //if not initialize the VideoWriter successfully, exit the program
 	{
 		cout << "ERROR: Failed to write the video" << endl;
 		return -1;
 	}
-	
-	double iLastX = -1;
-	double iLastY = -1;
+
 	Mat p;
 	vector<Point> barPath;
+	bool initialized = false;
+	double centerXa = -1;
+	double centerYa = -1;
 
 	//Capture a temporary image from the camera
 	Mat imgTmp;
@@ -138,18 +140,27 @@ int main(int argc, char** argv) {
 			}
 			else if (initialized)
 			{
-				iLastX = boundingBox.x + boundingBox.width / 2;
-				iLastY = boundingBox.y + boundingBox.height / 2;
+				//get center of rectangle
+				centerXa = boundingBox.x + boundingBox.width / 2;
+				centerYa = boundingBox.y + boundingBox.height / 2;
+				
 				//updates the tracker
 				if (tracker->update(frame, boundingBox))
 				{
 					rectangle(image, boundingBox, Scalar(255.0, 0.0, 0.0), 2, 1);
+					
+					double centerXb = boundingBox.x + boundingBox.width / 2;
+					double centerYb = boundingBox.y + boundingBox.height / 2;
+					
 					//draw green lines to show path of bar
 					line(imgLines, 
-						Point2d(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2), 
-						Point2d(iLastX, iLastY), Scalar(0.0, 255.0, 0.0), 2);
+						Point2d(centerXb, centerYb), 
+						Point2d(centerXa, centerYa), 
+						Scalar(0.0, 255.0, 0.0), 2
+						);
+
 					//store points in barPath vector
-					barPath.push_back( Point2d(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2));
+					barPath.push_back( Point2d(centerXa, centerYa));
 				}
 			}
 
