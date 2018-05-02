@@ -14,7 +14,10 @@ Run the command below in the build directory to build the solution in Release mo
 $ cmake --build . --config Release
 ```
 
+Note: Project is only working in Release mode.
 
+<hr>
+## Text Below is Outdated
 ### Replicate the hierarchy below to reproduce the project in Visual Studio
 Visual Studio Project Hierarchy:
 <pre>
