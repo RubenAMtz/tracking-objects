@@ -5,7 +5,6 @@
 #include <cstring>
 
 
-
 bool selectObject = false;
 bool paused = false;
 bool startSelection = false;
@@ -73,13 +72,6 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
-	//Capture a temporary image from the camera
-	Mat imgTmp;
-	cap.read(imgTmp);
-
-	//Create a black image with the size as the camera output
-	Mat imgLines = Mat::zeros(imgTmp.size(), CV_8UC3);;
-
 	Mat frame;
 	paused = true;
 	
@@ -113,6 +105,13 @@ int main(int argc, char** argv) {
 	int iLastY = -1;
 	Mat p;
 	vector<Point> barPath;
+
+	//Capture a temporary image from the camera
+	Mat imgTmp;
+	cap.read(imgTmp);
+
+	//Create a black image with the size as the camera output
+	Mat imgLines = Mat::zeros(imgTmp.size(), CV_8UC3);
 
 	for (;; )
 	{
