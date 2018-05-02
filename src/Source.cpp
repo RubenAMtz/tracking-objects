@@ -1,5 +1,5 @@
-#include "../headers/Header.h"
-#include "../headers/globals.h"
+#include "../include/Header.h"
+#include "../include/globals.h"
 #include <iostream>
 #include <string>
 #include <cstring>
