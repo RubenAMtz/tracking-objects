@@ -36,10 +36,6 @@ int main(int argc, char** argv) {
 	
 	getFileNames(videoName, videoSolution, videoNamePath);
 
-	int iLastX = -1;
-	int iLastY = -1;
-	Mat p;
-
 	if (videoName.empty())
 	{
 		help();
@@ -52,7 +48,7 @@ int main(int argc, char** argv) {
 
 	//open the capture
 	VideoCapture cap;
-	cap.open(parser.get<String>(1) + videoName);
+	cap.open(videoNamePath + videoName);
 	
 	if (!cap.isOpened())
 	{
@@ -66,8 +62,6 @@ int main(int argc, char** argv) {
 	double dheight = cap.get(CAP_PROP_FRAME_HEIGHT);
 	double dwidth = cap.get(CAP_PROP_FRAME_WIDTH);
 
-	Mat frame;
-	paused = true;
 	namedWindow("Tracking API", WINDOW_NORMAL);
 	setMouseCallback("Tracking API", onMouse, 0);
 
@@ -82,11 +76,13 @@ int main(int argc, char** argv) {
 	//Capture a temporary image from the camera
 	Mat imgTmp;
 	cap.read(imgTmp);
-	//resize(imgTmp, imgTmp, )
 
 	//Create a black image with the size as the camera output
 	Mat imgLines = Mat::zeros(imgTmp.size(), CV_8UC3);;
 
+	Mat frame;
+	paused = true;
+	
 	//get the first frame
 	cap >> frame;
 	frame.copyTo(image);
@@ -112,6 +108,11 @@ int main(int argc, char** argv) {
 		cout << "ERROR: Failed to write the video" << endl;
 		return -1;
 	}
+	
+	int iLastX = -1;
+	int iLastY = -1;
+	Mat p;
+	vector<Point> barPath;
 
 	for (;; )
 	{
@@ -143,9 +144,12 @@ int main(int argc, char** argv) {
 				if (tracker->update(frame, boundingBox))
 				{
 					rectangle(image, boundingBox, Scalar(255, 0, 0), 2, 1);
+					//draw green lines to show path of bar
 					line(imgLines, 
 						Point(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2), 
 						Point(iLastX, iLastY), Scalar(0, 255, 0), 2);
+					//store points in barPath vector
+					barPath.push_back( Point(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2));
 				}
 			}
 
