@@ -16,7 +16,7 @@ $ cmake --build . --config Release
 
 Note: Project is only working in Release mode.
 
-<hr>
+___
 ## Text Below is Outdated
 ### Replicate the hierarchy below to reproduce the project in Visual Studio
 Visual Studio Project Hierarchy:
