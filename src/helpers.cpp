@@ -20,6 +20,7 @@
 **/
 void onMouse(int event, int x, int y, int, void*)
 {
+	bool startSelection = false;
 	if (!selectObject)
 	{
 		switch (event)
