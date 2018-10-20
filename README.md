@@ -27,20 +27,4 @@ If you want to run your compiled program, just run:
 ```
 $ ./Release/trackingObjects.exe
 ```
-
-___
-## Text Below is Outdated
-### Replicate the hierarchy below to reproduce the project in Visual Studio
-Visual Studio Project Hierarchy:
-<pre>
-.  
-+-- _External Dependencies  
-+-- _Header Files  
-|    +-- globals.h  
-|    +-- Header.h  
-+-- _Resource Files  
-+-- _Source Files  
-|    +-- helpers.cpp  
-|    +-- Source.cpp  
-</pre>
-
+![alt text](https://github.com/RubenAMtz/tracking-objects/blob/master/media/path.png "Logo Title Text 1")
